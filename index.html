@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls & Cows</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Bulls & Cows</h1>
+        <div>
+            <label for="guess">Zadejte váš tip (čtyřmístné číslo): </label>
+            <input type="text" id="guess" maxlength="4">
+            <button id="submit-guess">Zkontrolovat</button>
+        </div>
+        <div id="feedback"></div>
+        <div>
+            <h3>Historie pokusů</h3>
+            <ul id="history"></ul>
+        </div>
+        <button id="new-game">Nová hra</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
