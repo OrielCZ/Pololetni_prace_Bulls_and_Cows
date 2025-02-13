@@ -1,11 +1,19 @@
+/* Defaultní Light mode */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: rgb(250, 216, 154);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    transition: all 0.3s ease;
+    --text-color: black;
+}
+
+body.dark-mode {
+    background-color: rgb(25, 25, 25);
+    --text-color: rgb(255, 255, 255);
 }
 
 .game-container {
@@ -15,11 +23,38 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
+    transition: background-color 0.3s ease;
+}
+
+body.dark-mode .game-container {
+    background-color: rgb(42, 42, 42);
+}
+
+h1, h2, h3, h4, h5, h6, p, span, label, li, #feedback {
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
+}
+
+#toggleMode {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#toggleMode:hover {
+    background-color: #45a049;
 }
 
 input {
@@ -37,10 +72,15 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #45a049;
+}
+
+body.dark-mode button:hover {
+    background-color: #6e9e3a;
 }
 
 #history {
@@ -50,4 +90,6 @@ button:hover {
 
 #history li {
     margin: 5px 0;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
