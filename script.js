@@ -1,10 +1,10 @@
 const API_URL = 'http://localhost:3000';
 
-function submitScore(playerName, attempts) {
+function submitScore(player_name, attempts) {
     fetch(`${API_URL}/submit-score`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ playerName, attempts })
+        body: JSON.stringify({ player_name, attempts })
     })
     .then(response => response.json())
     .then(data => console.log('Skóre odesláno:', data))
@@ -16,7 +16,7 @@ function loadLeaderboard() {
     .then(response => response.json())
     .then(scores => {
         const leaderboard = document.getElementById('leaderboard');
-        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.playerName} - ${s.attempts} pokusů</li>`).join('');
+        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.player_name} - ${s.attempts} pokusů</li>`).join('');
     })
     .catch(error => console.error('Chyba při načítání žebříčku:', error));
 }
@@ -65,11 +65,12 @@ let attempts = 0;
 let history = [];
 
 // Nastavení událostí
-function submitScore(playerName, attempts) {
+function submitScore(player_name, attempts) {
+
     fetch('http://localhost:3000/submit-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ playerName, attempts })
+        body: JSON.stringify({ player_name, attempts })
     })
     .then(response => response.json())
     .then(data => console.log('Skóre odesláno:', data))
@@ -96,8 +97,8 @@ document.getElementById('submit-guess').addEventListener('click', function() {
 
     // Kontrola výhry
     if (bulls === 4) {
-        const playerName = prompt("Gratulujeme! Zadejte své jméno:");
-        if (playerName) submitScore(playerName, attempts);
+        const player_name = prompt("Gratulujeme! Zadejte své jméno:");
+        if (player_name) submitScore(player_name, attempts);
         alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
     }
 });
@@ -119,7 +120,7 @@ function loadLeaderboard() {
     .then(response => response.json())
     .then(scores => {
         const leaderboard = document.getElementById('leaderboard');
-        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.playerName} - ${s.attempts} pokusů</li>`).join('');
+        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.player_name} - ${s.attempts} pokusů</li>`).join('');
     })
     .catch(error => console.error('Chyba při načítání žebříčku:', error));
 }

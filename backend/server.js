@@ -31,14 +31,14 @@ app.get('/leaderboard', async (req, res) => {
 
 // API pro uložení skóre
 app.post('/submit-score', async (req, res) => {
-    const { playerName, attempts } = req.body;
+    const { player_name, attempts } = req.body;
 
-    if (!playerName || typeof attempts !== 'number') {
+    if (!player_name || typeof attempts !== 'number') {
         return res.status(400).json({ error: 'Neplatná data' });
     }
 
     try {
-        await pool.query('INSERT INTO scores (player_name, attempts) VALUES ($1, $2)', [playerName, attempts]);
+        await pool.query('INSERT INTO scores (player_name, attempts) VALUES ($1, $2)', [player_name, attempts]);
         res.json({ message: 'Skóre uloženo!' });
     } catch (error) {
         console.error('Chyba při ukládání skóre:', error);
