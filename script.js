@@ -1,3 +1,28 @@
+const API_URL = 'http://localhost:3000';
+
+function submitScore(playerName, attempts) {
+    fetch(`${API_URL}/submit-score`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerName, attempts })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Skóre odesláno:', data))
+    .catch(error => console.error('Chyba při odesílání skóre:', error));
+}
+
+function loadLeaderboard() {
+    fetch(`${API_URL}/leaderboard`)
+    .then(response => response.json())
+    .then(scores => {
+        const leaderboard = document.getElementById('leaderboard');
+        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.playerName} - ${s.attempts} pokusů</li>`).join('');
+    })
+    .catch(error => console.error('Chyba při načítání žebříčku:', error));
+}
+
+window.onload = loadLeaderboard;
+
 // Generování tajného čísla bez opakujících se číslic
 function generateSecretNumber() {
     let digits = [];
@@ -40,19 +65,29 @@ let attempts = 0;
 let history = [];
 
 // Nastavení událostí
+function submitScore(playerName, attempts) {
+    fetch('http://localhost:3000/submit-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playerName, attempts })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Skóre odesláno:', data))
+    .catch(error => console.error('Chyba při odesílání skóre:', error));
+}
+
 document.getElementById('submit-guess').addEventListener('click', function() {
     const guess = document.getElementById('guess').value;
 
     if (!isValidGuess(guess)) {
-        alert("Neplatný vstup! Zadejte čtyřmístné číslo bez opakujících se číslic.");
+        alert("Neplatný vstup! Zadejte čtyřmístné číslo bez duplicit.");
         return;
     }
 
+    // Zobrazení zpětné vazby
     attempts++;
     const { bulls, cows } = checkGuess(secretNumber, guess);
     history.push(`Tip: ${guess} - 🟢${bulls} 🟡${cows}`);
-
-    // Zobrazení zpětné vazby
     document.getElementById('feedback').innerText = `Bulls: ${bulls}, Cows: ${cows}`;
     
     // Historie pokusů
@@ -61,9 +96,12 @@ document.getElementById('submit-guess').addEventListener('click', function() {
 
     // Kontrola výhry
     if (bulls === 4) {
-        alert(`Gratulujeme! Uhodl jste číslo ${secretNumber} za ${attempts} pokusů.`);
+        const playerName = prompt("Gratulujeme! Zadejte své jméno:");
+        if (playerName) submitScore(playerName, attempts);
+        alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
     }
 });
+
 
 // Nová hra
 document.getElementById('new-game').addEventListener('click', function() {
@@ -74,3 +112,17 @@ document.getElementById('new-game').addEventListener('click', function() {
     document.getElementById('feedback').innerText = '';
     document.getElementById('history').innerHTML = '';
 });
+
+// Náčítání score
+function loadLeaderboard() {
+    fetch('http://localhost:3000/leaderboard')
+    .then(response => response.json())
+    .then(scores => {
+        const leaderboard = document.getElementById('leaderboard');
+        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.playerName} - ${s.attempts} pokusů</li>`).join('');
+    })
+    .catch(error => console.error('Chyba při načítání žebříčku:', error));
+}
+
+// Načíst žebříček při načtení stránky
+window.onload = loadLeaderboard;
