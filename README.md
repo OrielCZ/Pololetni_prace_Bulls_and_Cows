@@ -1,15 +1,16 @@
 # Pololetni_prace_Bulls_and_Cows
  
- [text](https://www.remnote.com/a/Seznam-projektu/67a09c942d1d3b8343d49e4b)
+ [Bulls & Cows_Cíle](https://www.remnote.com/a/Seznam-projektu/67a09c942d1d3b8343d49e4b)
 
-Bulls & Cows
 Cíl projektu
 Vytvořit interaktivní webovou hru Bulls & Cows, kde hráč hádá náhodné čtyřmístné číslo, které si počítač tajně vygeneruje. Po každém pokusu systém poskytne zpětnou vazbu o počtu správných číslic na správném místě (Bulls) a správných číslic na nesprávném místě (Cows). Hra musí být interaktivní, vizuálně přehledná a obsahovat statistiky hráče.
 Funkční požadavky
-1. Generování tajného čísla
+
+## 1. Generování tajného čísla
 Po spuštění hry si počítač náhodně vygeneruje čtyřmístné číslo.
 Číslice se nemohou opakovat (např. 1234 je platné, 1123 není).
-2. Zadávání hádaného čísla
+
+## 2. Zadávání hádaného čísla
 Hráč zadá svůj tip (čtyřmístné číslo) do vstupního pole.
 Po potvrzení se zobrazí výsledek:
 Bulls (🟢) – správná číslice na správném místě.
@@ -18,15 +19,18 @@ Například:
 Tajné číslo: 4271
 Hádání hráče: 1234
 Výsledek: 🟢1 (správná číslice na správném místě – 4), 🟡2 (číslice 2 a 1 jsou správné, ale na špatném místě).
-3. Omezení vstupů a validace
+
+## 3. Omezení vstupů a validace
 Hráč může zadat pouze čtyřmístné číslo.
 Duplicitní číslice nejsou povoleny.
 Číslo nesmí začínat 0. 
 Při neplatném vstupu se zobrazí chybová zpráva.
-4. Počítání pokusů a vítězství
+
+## 4. Počítání pokusů a vítězství
 Po každém pokusu se počet tahů zvýší.
 Pokud hráč uhodne celé číslo, hra zobrazí vítěznou zprávu a nabídne možnost nové hry.
-5. Historie pokusů
+
+## 5. Historie pokusů
 Zobrazení historie všech tipů a jejich výsledků (např. tabulka s tipem hráče, počtem Bulls & Cows).
 Bonusové požadavky
 Ukládání nejlepších výsledků
@@ -48,7 +52,8 @@ Validace vstupů a chybové zprávy pro nesprávné vstupy.
 LocalStorage pro ukládání nejlepších výsledků a nastavení.
 Responzivní design – správné zobrazení na desktopu i mobilu.
 Očekávané hodnocení
-Kritérium
+
+## Kritérium
 Body
 Poznámka
 HTML – správná struktura
