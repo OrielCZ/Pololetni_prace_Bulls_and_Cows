@@ -22,8 +22,6 @@ Součástí hry je také **online leaderboard**, kde se hráči mohou porovnáva
 
 ### **Backend (Node.js, Express, PostgreSQL)**
 - `server.js` – serverová logika.
-- `database.sql` – skript pro vytvoření tabulky v databázi.
-- `Dockerfile` + `docker-compose.yml` – umožňují spustit databázi v Dockeru.
 
 ---
 
