@@ -16,3 +16,32 @@ toggleButton.addEventListener("click", function() {
         localStorage.setItem("theme", "light");
     }
 });
+
+function createAnimal() {
+    const animal = document.createElement("div");
+    animal.classList.add("animal");
+
+    let startX = Math.random() * window.innerWidth;
+    let startY = Math.random() * window.innerHeight;
+    let endX = Math.random() * window.innerWidth;
+    let endY = Math.random() * window.innerHeight;
+
+    animal.style.left = `${startX}px`;
+    animal.style.top = `${startY}px`;
+
+    document.body.appendChild(animal);
+
+    animal.animate([
+        { transform: `translate(0, 0)` },
+        { transform: `translate(${endX - startX}px, ${endY - startY}px)` }
+    ], {
+        duration: Math.random() * 5000 + 5000, // 5-10 sekund
+        iterations: Infinity,
+        direction: "alternate"
+    });
+}
+
+// Generuje několik zvířátek na začátku
+for (let i = 0; i < 5; i++) {
+    createAnimal();
+}

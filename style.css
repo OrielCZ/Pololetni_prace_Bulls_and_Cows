@@ -1,7 +1,7 @@
 /* Defaultní Light mode */
 body {
     font-family: Arial, sans-serif;
-    background-color: rgb(250, 216, 154);
+    background-color: rgb(190, 160, 100);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +29,7 @@ body.dark-mode {
 body.dark-mode .game-container {
     background-color: rgb(42, 42, 42);
 }
-
+/*Textové elementy nastavení*/
 h1, h2, h3, h4, h5, h6, p, span, label, li, #feedback {
     color: var(--text-color);
     transition: color 0.3s ease;
@@ -39,7 +39,26 @@ h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
+/*Animace na pozadí*/
+#background {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
 
+.animal {
+    z-index: -1;
+    width: 50px;
+    height: 50px;
+    background-image: url('animal.png');
+    background-size: cover;
+    position: absolute;
+}
+/*Game bar*/
 #toggleMode {
     position: absolute;
     top: 10px;
