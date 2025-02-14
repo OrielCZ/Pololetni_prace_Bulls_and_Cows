@@ -9,6 +9,7 @@ body {
     margin: 0;
     transition: all 0.3s ease;
     --text-color: black;
+    overflow: hidden;
 }
 
 body.dark-mode {
@@ -18,7 +19,7 @@ body.dark-mode {
 
 .game-container {
     text-align: center;
-    background-color: #fff;
+    background-color: rgb(233, 195, 123);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
+const path = require("path")
+const fs = require("fs")
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,7 +21,7 @@ const pool = new Pool({
 });
 
 // API pro získání žebříčku
-app.get('/leaderboard', async (req, res) => {
+app.get('/api/leaderboard', async (req, res) => {
     try {
         const result = await pool.query('SELECT player_name, attempts FROM scores ORDER BY attempts ASC LIMIT 10');
         res.json(result.rows);
@@ -30,7 +32,7 @@ app.get('/leaderboard', async (req, res) => {
 });
 
 // API pro uložení skóre
-app.post('/submit-score', async (req, res) => {
+app.post('/api/submit-score', async (req, res) => {
     const { player_name, attempts } = req.body;
 
     if (!player_name || typeof attempts !== 'number') {
@@ -45,6 +47,19 @@ app.post('/submit-score', async (req, res) => {
         res.status(500).json({ error: 'Interní chyba serveru' });
     }
 });
+
+const PUBLIC_DIR = path.join(__dirname, "../public");
+app.get("*", (req, res) => {
+    let p = path.join(PUBLIC_DIR, "." + req.url)
+    if (fs.statSync(p).isDirectory()) {
+        p += "index.html";
+    }
+    if (fs.existsSync(p)) {
+        res.sendFile(p);
+        return;
+    }
+    res.send("404")
+})
 
 app.listen(port, () => {
     console.log(`Server běží na http://localhost:${port}`);

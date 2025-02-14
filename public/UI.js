@@ -42,6 +42,6 @@ function createAnimal() {
 }
 
 // Generuje několik zvířátek na začátku
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 4; i++) {
     createAnimal();
 }

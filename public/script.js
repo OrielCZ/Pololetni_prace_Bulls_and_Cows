@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3000/api';
 
 function submitScore(player_name, attempts) {
     fetch(`${API_URL}/submit-score`, {
@@ -67,7 +67,7 @@ let history = [];
 // Nastavení událostí
 function submitScore(player_name, attempts) {
 
-    fetch('http://localhost:3000/submit-score', {
+    fetch('http://localhost:3000/api/submit-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ player_name, attempts })
@@ -116,7 +116,7 @@ document.getElementById('new-game').addEventListener('click', function() {
 
 // Náčítání score
 function loadLeaderboard() {
-    fetch('http://localhost:3000/leaderboard')
+    fetch('http://localhost:3000/api/leaderboard')
     .then(response => response.json())
     .then(scores => {
         const leaderboard = document.getElementById('leaderboard');
