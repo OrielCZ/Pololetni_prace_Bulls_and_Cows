@@ -77,20 +77,22 @@ Součástí hry je také **online leaderboard**, kde se hráči mohou porovnáva
 ---
 
 ## 6. Jak spustit projekt
-### **1. Backend**
-```sh
-# Spuštění PostgreSQL v Dockeru
-docker-compose up -d
-
-# Instalace závislostí
-npm install
-
-# Spuštění serveru
-node server.js
+Je třeba mít instalovaný PostgreSQL. Přístupové údaje k PostgreSQL přidáme do souboru `.env`, který vytvoříme ve složce projektu.
+```
+PORT=<port, na kterém poslouchá web - default 3000>
+DB_HOST=<hostovací server databáze>
+DB_USER=<uživatel databáze>
+DB_PASSWORD=<heslo k databázi>
+DB_NAME=<jméno databáze>
+DB_PORT=<port na kterém běží databáze>
+```
+Poté spustíme.
+```bash
+$ npm i
+$ node .
+Server běží na http://localhost:<port>
 ```
 
-### **2. Frontend**
-Stačí otevřít `index.html` v prohlížeči.
 
 ---
 
