@@ -8,17 +8,41 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+ <!--Animace na pozadí-->
     <div id="background"></div>
-    <div class="menu">
-        <div>
-            <button id="toggleMode">Dark/Light</button>
-        </div>
+<!--Dení noční režím (Rozdělané-Vložit do samostatného podokna na nastavení)-->
+    <div id="menuSettings" class="window draggable">
+        <button id="toggleMode">Dark/Light</button>
     </div>
-    <div class="game-container">
+<!--Hlavní menu--><!--Odebrat hiden-->
+    <div id="menu" class="window draggable hidden">
+        <h2>Hlavní menu</h2>
+        <button onclick="openGameSettings()">Start hry</button>
+        <button onclick="openLeaderboard()">Žebříček nejlepších</button>
+        <button onclick="openSettings()">Nastavení</button>
+        <button onclick="openInfo()">Informace</button>
+    </div>
+<!--GameSettings-->
+    <div id="gameSettings" class="window draggable hidden">
+        <h2>Nastavení hry</h2>
+        <label>Jméno hráče:</label>
+        <input type="text" id="playerName" placeholder="Zadejte jméno">
+        <button onclick="startGame()">Start</button>
+    </div>
+<!--Hra--><!--přidat hiden-->
+    <div id="gameWindow" class="draggable window">
         <h1>Bulls & Cows</h1>
         <div>
             <label for="guess">Zadejte váš tip (čtyřmístné číslo): </label>
-            <input type="text" id="guess" maxlength="4">
+            <!--↓V testu ↓-->
+            <div id="number-inputs">
+                <input type="text" maxlength="1" class="digit-input" id="digit1">
+                <input type="text" maxlength="1" class="digit-input" id="digit2">
+                <input type="text" maxlength="1" class="digit-input" id="digit3">
+                <input type="text" maxlength="1" class="digit-input" id="digit4">
+                <button onclick="submitGuess()">Odeslat</button>
+            </div>
+            <!--↑V testu ↑-->
             <button id="submit-guess">Zkontrolovat</button>
         </div>
         <div id="feedback"></div>
@@ -32,6 +56,7 @@
             <ul id="leaderboard"></ul>
         </div>        
     </div>
+    <!--Scripts-->
     <script src="script.js"></script>
     <script src="UI.js"></script>
 </body>

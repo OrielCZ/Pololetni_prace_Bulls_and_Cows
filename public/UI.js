@@ -1,3 +1,44 @@
+// Funkce pro zobrazení okna nastavení hry
+function openGameSettings() {
+    document.getElementById("gameSettings").classList.remove("hidden");
+}
+
+// Funkce pro spuštění hry
+function startGame() {
+    const playerName = document.getElementById("playerName").value;
+
+    if (!playerName.trim()) {
+        alert("Zadejte své jméno!");
+        return;
+    }
+
+    console.log(`Hráč: ${playerName}`);
+
+    // Skryjeme menu a zobrazíme hru
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("gameSettings").classList.add("hidden");
+    document.getElementById("gameWindow").classList.remove("hidden");
+}
+
+// Přetahování oken
+document.querySelectorAll(".draggable").forEach(window => {
+    let isDragging = false, startX, startY;
+
+    window.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        startX = e.clientX - window.offsetLeft;
+        startY = e.clientY - window.offsetTop;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        window.style.left = `${e.clientX - startX}px`;
+        window.style.top = `${e.clientY - startY}px`;
+    });
+
+    document.addEventListener("mouseup", () => isDragging = false);
+});
+
 // Získání tlačítka a přepínání režimu
 const toggleButton = document.getElementById("toggleMode");
 
@@ -17,6 +58,7 @@ toggleButton.addEventListener("click", function() {
     }
 });
 
+//Pohyblivé pozadí
 function createAnimal() {
     const animal = document.createElement("div");
     animal.classList.add("animal");
