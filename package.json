@@ -7,12 +7,20 @@
   },
   "name": "backend",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "./src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "[Bulls & Cows_Cíle](https://www.remnote.com/a/Seznam-projektu/67a09c942d1d3b8343d49e4b)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OrielCZ/Pololetni_prace_Bulls_and_Cows.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OrielCZ/Pololetni_prace_Bulls_and_Cows/issues"
+  },
+  "homepage": "https://github.com/OrielCZ/Pololetni_prace_Bulls_and_Cows#readme"
 }
