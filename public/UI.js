@@ -1,11 +1,22 @@
     //Windows
 // Funkce pro zobrazení okna nastavení hry
 function openGameSettings() {
-    showWindow("gameSettings");
+    document.getElementById("gameSettings").classList.remove("hidden");
+    document.getElementById("menu").classList.add("hidden");
+}
+
+function openLeaderboard(){
+    document.getElementById("w_leaderboard").classList.remove("hidden");
+    document.getElementById("menu").classList.add("hidden");
 }
 
 function openSettings(){
-    showWindow("menuSettings");
+    document.getElementById("menuSettings").classList.remove("hidden");
+    document.getElementById("menu").classList.add("hidden");
+}
+
+function openInfo(){
+    document.getElementById("informace").classList.remove("hidden");
     document.getElementById("menu").classList.add("hidden");
 }
 
@@ -14,6 +25,8 @@ function backTuMenu(){
     document.getElementById("menuSettings").classList.add("hidden");
     document.getElementById("gameSettings").classList.add("hidden");
     document.getElementById("gameWindow").classList.add("hidden");
+    document.getElementById("w_leaderboard").classList.add("hidden");
+    document.getElementById("informace").classList.add("hidden");
 }
 
 // Funkce pro spuštění hry
@@ -27,7 +40,7 @@ function startGame() {
     // Skryjeme menu a zobrazíme hru
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("gameSettings").classList.add("hidden");
-    showWindow("gameWindow");
+    document.getElementById("gameWindow").classList.remove("hidden");
 }
 
 // Přetahování oken jen za title-bar
@@ -88,34 +101,3 @@ toggleButton.addEventListener("click", function() {
         localStorage.setItem("theme", "light");
     }
 });
-
-    //Bavkeraund
-//Pohyblivé pozadí
-function createAnimal() {
-    const animal = document.createElement("div");
-    animal.classList.add("animal");
-
-    let startX = Math.random() * window.innerWidth;
-    let startY = Math.random() * window.innerHeight;
-    let endX = Math.random() * window.innerWidth;
-    let endY = Math.random() * window.innerHeight;
-
-    animal.style.left = `${startX}px`;
-    animal.style.top = `${startY}px`;
-
-    document.body.appendChild(animal);
-
-    animal.animate([
-        { transform: `translate(0, 0)` },
-        { transform: `translate(${endX - startX}px, ${endY - startY}px)` }
-    ], {
-        duration: Math.random() * 5000 + 5000, // 5-10 sekund
-        iterations: Infinity,
-        direction: "alternate"
-    });
-}
-
-// Generuje několik zvířátek na začátku
-for (let i = 0; i < 4; i++) {
-    createAnimal();
-}

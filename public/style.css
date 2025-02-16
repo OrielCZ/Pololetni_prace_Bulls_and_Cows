@@ -112,6 +112,34 @@ button:hover {
 }
 
 /*Animace na pozadí*/
+.cow {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url('images/cow1.png');
+    background-size: cover;
+    transition: transform 1s ease, top 1s ease, left 1s ease;
+}
+
+.cow.walking {
+    animation: walk 0.5s steps(2) infinite;
+}
+
+.cow.eating {
+    background-image: url('images/cow_eating.png');
+}
+
+.cow.resting {
+    opacity: 0.6;
+}
+
+@keyframes walk {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-2px); }
+    100% { transform: translateY(0px); }
+}
+
+/*
 #background {
     z-index: -1;
     position: fixed;
@@ -126,10 +154,10 @@ button:hover {
     z-index: -1;
     width: 50px;
     height: 50px;
-    background-image: url('images/animal.png');
+    background-image: url('images/cow1.png');
     background-size: cover;
     position: absolute;
-}
+}*/
 /* Skrití okna */
 .hidden {
     display: none;

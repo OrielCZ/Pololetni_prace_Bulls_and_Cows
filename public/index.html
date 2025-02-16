@@ -9,12 +9,9 @@
 </head>
 <body>
  <!--Animace na pozadí-->
-    <div id="background"></div>
-<!--Dení noční režím-->
-    <div id="menuSettings" class="window hidden">
-        <div class="title-bar"></div>
-        <button id="toggleMode">Dark/Light</button>
-        <button onclick="backTuMenu()">Zpátky do menu</button>
+    <div id="background">
+        <div id="grass-container"></div> <!-- Kontejner pro trávu -->
+        <div id="cows-container"></div> <!-- Kontejner pro kravičky -->
     </div>
 <!--Hlavní menu-->
     <div id="menu" class="window">
@@ -32,6 +29,26 @@
         <label>Jméno hráče:</label>
         <input type="text" id="playerName" placeholder="Zadejte jméno">
         <button onclick="startGame()">Start</button>
+        <button onclick="backTuMenu()">Zpátky do menu</button>
+    </div>
+<!--Leaderboard-->
+    <div id="w_leaderboard" class="window hidden">
+        <div class="title-bar"></div>
+        <h1>Žebříček nejlepších hráčů</h1>
+        <ul id="leaderboard"></ul> 
+        <button onclick="backTuMenu()">Zpátky do menu</button>
+    </div>
+<!--Informace-->
+    <div id="informace" class="window hidden">
+        <div class="title-bar"></div>
+        <h1>Informace</h1>
+        <p>Random text o fungování hry a o projektu</p>
+        <button onclick="backTuMenu()">Zpátky do menu</button>
+    </div>
+<!--Nastavení-->
+    <div id="menuSettings" class="window hidden">
+        <div class="title-bar"></div>
+        <button id="toggleMode">Dark/Light</button>
         <button onclick="backTuMenu()">Zpátky do menu</button>
     </div>
 <!--Hra-->
@@ -55,13 +72,10 @@
         </div>
         <button id="new-game">Nová hra</button>
         <button onclick="backTuMenu()">Zpátky do menu</button>
-        <div>
-            <h3>Žebříček nejlepších hráčů</h3>
-            <ul id="leaderboard"></ul>     
-        </div>
     </div>
     <!--Scripts-->
     <script src="script.js"></script>
     <script src="UI.js"></script>
+    <script src="background.js"></script>
 </body>
 </html>
