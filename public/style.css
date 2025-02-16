@@ -11,6 +11,7 @@ body {
     transition: all 0.3s ease;
     --text-color: black;
     --window-color: rgb(233, 195, 123);
+    --title-bar: rgb(255, 221, 159);
     overflow: hidden;
 }
 
@@ -27,11 +28,23 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
+
+.title-bar {
+    background-color: var(--title-bar);
+    padding: 10px;
+    cursor: move;
+    font-weight: bold;
+    text-align: center;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
  /* Defaultní darke mode */
 body.dark-mode {
     background-color: rgb(25, 25, 25);
     --text-color: rgb(255, 255, 255);
     --window-color : rgb(60, 60, 60);
+    --title-bar: rgb(80, 80, 80);
 }
 
 /*Textové elementy nastavení*/
@@ -56,6 +69,7 @@ button {
 button:hover {
     background-color: rgba(75, 175, 80, 0.7);
 }
+
 /*Game bar*/
 #guess {
     padding: 5px;
@@ -75,7 +89,6 @@ button:hover {
     transition: color 0.3s ease;
 }
 
-/*↓V testu ↓*/
 #number-inputs {
     display: flex;
     gap: 10px;
@@ -97,7 +110,6 @@ button:hover {
 .digit-input:focus {
     border-color: #0f0;
 }
-/*↑V testu ↑*/
 
 /*Animace na pozadí*/
 #background {
@@ -121,8 +133,4 @@ button:hover {
 /* Skrití okna */
 .hidden {
     display: none;
-}
-/* Přetahování oken */
-.draggable {
-    cursor: move;
 }

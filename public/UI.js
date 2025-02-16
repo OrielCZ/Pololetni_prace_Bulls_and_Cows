@@ -1,30 +1,41 @@
+    //Windows
 // Funkce pro zobrazení okna nastavení hry
 function openGameSettings() {
-    document.getElementById("gameSettings").classList.remove("hidden");
+    showWindow("gameSettings");
+}
+
+function openSettings(){
+    showWindow("menuSettings");
+    document.getElementById("menu").classList.add("hidden");
+}
+
+function backTuMenu(){
+    document.getElementById("menu").classList.remove("hidden");
+    document.getElementById("menuSettings").classList.add("hidden");
+    document.getElementById("gameSettings").classList.add("hidden");
+    document.getElementById("gameWindow").classList.add("hidden");
 }
 
 // Funkce pro spuštění hry
 function startGame() {
     const playerName = document.getElementById("playerName").value;
-
     if (!playerName.trim()) {
         alert("Zadejte své jméno!");
         return;
     }
-
-    console.log(`Hráč: ${playerName}`);
-
+    localStorage.setItem("Name", playerName);
     // Skryjeme menu a zobrazíme hru
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("gameSettings").classList.add("hidden");
-    document.getElementById("gameWindow").classList.remove("hidden");
+    showWindow("gameWindow");
 }
 
-// Přetahování oken
-document.querySelectorAll(".draggable").forEach(window => {
+// Přetahování oken jen za title-bar
+document.querySelectorAll(".window").forEach(window => {
+    const titleBar = window.querySelector(".title-bar");
     let isDragging = false, startX, startY;
 
-    window.addEventListener("mousedown", (e) => {
+    titleBar.addEventListener("mousedown", (e) => {
         isDragging = true;
         startX = e.clientX - window.offsetLeft;
         startY = e.clientY - window.offsetTop;
@@ -39,6 +50,26 @@ document.querySelectorAll(".draggable").forEach(window => {
     document.addEventListener("mouseup", () => isDragging = false);
 });
 
+// Funkce pro umístění okna na volné místo
+function showWindow(id) {
+    let windowElement = document.getElementById(id);
+    windowElement.classList.remove("hidden");
+
+    let windows = document.querySelectorAll(".window:not(.hidden)");
+    let offsetX = 50;
+    let offsetY = 50;
+
+    windows.forEach(win => {
+        let rect = win.getBoundingClientRect();
+        offsetX = Math.max(offsetX, rect.right + 10);
+        offsetY = Math.max(offsetY, rect.bottom + 10);
+    });
+
+    windowElement.style.left = `${Math.min(offsetX, window.innerWidth - 310)}px`;
+    windowElement.style.top = `${Math.min(offsetY, window.innerHeight - 200)}px`;
+}
+
+    //Nastavení
 // Získání tlačítka a přepínání režimu
 const toggleButton = document.getElementById("toggleMode");
 
@@ -58,6 +89,7 @@ toggleButton.addEventListener("click", function() {
     }
 });
 
+    //Bavkeraund
 //Pohyblivé pozadí
 function createAnimal() {
     const animal = document.createElement("div");

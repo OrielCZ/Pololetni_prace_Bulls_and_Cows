@@ -61,6 +61,7 @@ function generateSecretNumber() {
             digits.push(num);
         }
     }
+    console.log(digits.join(''))
     return digits.join('');
 }
 
@@ -68,7 +69,7 @@ function generateSecretNumber() {
 function checkGuess(secret, guess) {
     let bulls = 0;
     let cows = 0;
-    
+
     for (let i = 0; i < guess.length; i++) {
         if (guess[i] === secret[i]) {
             bulls++;
@@ -80,9 +81,61 @@ function checkGuess(secret, guess) {
     return { bulls, cows };
 }
 
+// Funkce pro validaci vstupu
+function isValidGuess(guess) {
+    if (guess.length !== 4 || isNaN(guess) || guess[0] === '0') {
+        return false;
+    }
+    let digits = new Set(guess);
+    return digits.size === 4; // Kontrola duplicity číslic
+}
 
+// Inicializace hry
+let secretNumber = generateSecretNumber();
+let attempts = 0;
+let history = [];
+let player_name ='';
 
-//↓V testu ↓
+// Připojení event listeneru na tlačítko odeslání tipu
+document.getElementById('submit-guess').addEventListener('click', function () {
+    const inputs = document.querySelectorAll('.digit-input');
+    let guess = Array.from(inputs).map(input => input.value).join('');
+
+    if (!isValidGuess(guess)) {
+        alert("Neplatný vstup! Zadejte čtyřmístné číslo bez duplicit.");
+        return;
+    }
+
+    // Zobrazení zpětné vazby
+    attempts++;
+    const { bulls, cows } = checkGuess(secretNumber, guess);
+    history.push(`Tip: ${guess} - 🟢${bulls} 🟡${cows}`);
+    document.getElementById('feedback').innerText = `Bulls: ${bulls}, Cows: ${cows}`;
+
+    // Historie pokusů
+    const historyList = document.getElementById('history');
+    historyList.innerHTML = history.map(entry => `<li>${entry}</li>`).join('');
+
+    // Kontrola výhry
+    if (bulls === 4) {
+        player_name = localStorage.getItem("Name")
+        if (player_name) submitScore(player_name, attempts);
+        alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
+    }
+});
+
+// Nová hra
+document.getElementById('new-game').addEventListener('click', function () {
+    secretNumber = generateSecretNumber();
+    attempts = 0;
+    history = [];
+
+    document.querySelectorAll('.digit-input').forEach(input => input.value = '');
+    document.getElementById('feedback').innerText = '';
+    document.getElementById('history').innerHTML = '';
+});
+
+// Automatické přeskakování mezi políčky + podpora Backspace
 document.addEventListener("DOMContentLoaded", function () {
     const inputs = document.querySelectorAll(".digit-input");
 
@@ -103,74 +156,4 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-});
-
-// Odeslání čísla ke zpracování
-function submitGuess() {
-    const inputs = document.querySelectorAll(".digit-input");
-    let guess = "";
-
-    inputs.forEach(input => {
-        guess += input.value;
-    });
-
-    if (guess.length === 4) {
-        console.log("Odeslaný tip:", guess);
-        checkGuess(guess); // Tady by se volala funkce na kontrolu tipu
-    } else {
-        alert("Zadejte všechna 4 čísla!");
-    }
-}
-//↑V testu ↑
-
-
-
-// Funkce pro validaci vstupu
-function isValidGuess(guess1, guess2, guess3, guess4) {
-    let guess = guess1 + guess2 + guess3 + guess4
-    if (guess.length !== 4 || isNaN(guess) || guess[0] === '0') {
-        return false;
-    }
-    let digits = new Set(guess);
-    return digits.size === 4;  // Kontrola duplicity číslic
-}
-
-let secretNumber = generateSecretNumber();
-let attempts = 0;
-let history = [];
-
-document.getElementById('submit-guess').addEventListener('click', function() {
-    const guess = document.getElementById('guess').value;
-
-    if (!isValidGuess(guess)) {
-        alert("Neplatný vstup! Zadejte čtyřmístné číslo bez duplicit.");
-        return;
-    }
-
-    // Zobrazení zpětné vazby
-    attempts++;
-    const { bulls, cows } = checkGuess(secretNumber, guess);
-    history.push(`Tip: ${guess} - 🟢${bulls} 🟡${cows}`);
-    document.getElementById('feedback').innerText = `Bulls: ${bulls}, Cows: ${cows}`;
-    
-    // Historie pokusů
-    const historyList = document.getElementById('history');
-    historyList.innerHTML = history.map(entry => `<li>${entry}</li>`).join('');
-
-    // Kontrola výhry
-    if (bulls === 4) {
-        const player_name = prompt("Gratulujeme! Zadejte své jméno:");
-        if (player_name) submitScore(player_name, attempts);
-        alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
-    }
-});
-
-// Nová hra
-document.getElementById('new-game').addEventListener('click', function() {
-    secretNumber = generateSecretNumber();
-    attempts = 0;
-    history = [];
-    document.getElementById('guess').value = '';
-    document.getElementById('feedback').innerText = '';
-    document.getElementById('history').innerHTML = '';
 });

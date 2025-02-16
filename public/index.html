@@ -10,12 +10,15 @@
 <body>
  <!--Animace na pozadí-->
     <div id="background"></div>
-<!--Dení noční režím (Rozdělané-Vložit do samostatného podokna na nastavení)-->
-    <div id="menuSettings" class="window draggable">
+<!--Dení noční režím-->
+    <div id="menuSettings" class="window hidden">
+        <div class="title-bar"></div>
         <button id="toggleMode">Dark/Light</button>
+        <button onclick="backTuMenu()">Zpátky do menu</button>
     </div>
-<!--Hlavní menu--><!--Odebrat hiden-->
-    <div id="menu" class="window draggable hidden">
+<!--Hlavní menu-->
+    <div id="menu" class="window">
+        <div class="title-bar"></div>
         <h2>Hlavní menu</h2>
         <button onclick="openGameSettings()">Start hry</button>
         <button onclick="openLeaderboard()">Žebříček nejlepších</button>
@@ -23,26 +26,26 @@
         <button onclick="openInfo()">Informace</button>
     </div>
 <!--GameSettings-->
-    <div id="gameSettings" class="window draggable hidden">
+    <div id="gameSettings" class="window hidden">
+        <div class="title-bar"></div>
         <h2>Nastavení hry</h2>
         <label>Jméno hráče:</label>
         <input type="text" id="playerName" placeholder="Zadejte jméno">
         <button onclick="startGame()">Start</button>
+        <button onclick="backTuMenu()">Zpátky do menu</button>
     </div>
-<!--Hra--><!--přidat hiden-->
-    <div id="gameWindow" class="draggable window">
+<!--Hra-->
+    <div id="gameWindow" class="window hidden">
+        <div class="title-bar"></div>
         <h1>Bulls & Cows</h1>
         <div>
             <label for="guess">Zadejte váš tip (čtyřmístné číslo): </label>
-            <!--↓V testu ↓-->
             <div id="number-inputs">
                 <input type="text" maxlength="1" class="digit-input" id="digit1">
                 <input type="text" maxlength="1" class="digit-input" id="digit2">
                 <input type="text" maxlength="1" class="digit-input" id="digit3">
                 <input type="text" maxlength="1" class="digit-input" id="digit4">
-                <button onclick="submitGuess()">Odeslat</button>
             </div>
-            <!--↑V testu ↑-->
             <button id="submit-guess">Zkontrolovat</button>
         </div>
         <div id="feedback"></div>
@@ -51,10 +54,11 @@
             <ul id="history"></ul>
         </div>
         <button id="new-game">Nová hra</button>
+        <button onclick="backTuMenu()">Zpátky do menu</button>
         <div>
             <h3>Žebříček nejlepších hráčů</h3>
-            <ul id="leaderboard"></ul>
-        </div>        
+            <ul id="leaderboard"></ul>     
+        </div>
     </div>
     <!--Scripts-->
     <script src="script.js"></script>
