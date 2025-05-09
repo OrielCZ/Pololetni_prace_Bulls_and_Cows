@@ -99,7 +99,8 @@ function serve(port: number) {
       }
 
       return {
-        result
+        result,
+        code: game.attempt >= 10 ? game.code : undefined
       };
     }, {
       body: t.Object({

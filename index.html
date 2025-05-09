@@ -559,7 +559,7 @@
         submitButton.classList.replace('is-success', 'is-primary');
       } else {
         // API nevrací tajný kód, takže zobrazíme obecnou zprávu
-        messageDiv.innerHTML = `💔 Prohrál jsi po ${MAX_ATTEMPTS} pokusech. API by mělo smazat hru.`;
+        messageDiv.innerHTML = `💔 Prohrál jsi po ${MAX_ATTEMPTS} pokusech. Kód byl ${submittedCode}.`;
         messageDiv.classList.add('has-text-danger');
         submitButton.textContent = 'PROHRÁL JSI';
         submitButton.classList.replace('is-success', 'is-danger');
@@ -619,10 +619,11 @@
         previousGuesses.push(guess);
         displayResult(guess, responseData.result, attemptsCount); // Předáváme objekt result
 
+        console.log(attemptsCount);
         if (responseData.result.ok === 4) {
           handleEndGame(true, guess); // Výhra
         } else if (attemptsCount >= MAX_ATTEMPTS) {
-          handleEndGame(false, guess); // Prohra, předáme poslední tip pro případné zobrazení
+          handleEndGame(false, responseData.code || "<neznámý>"); // Prohra, předáme poslední tip pro případné zobrazení
         } else {
           updateAttemptsMessage(); // API nevrací 'left', počítáme si sami
         }
