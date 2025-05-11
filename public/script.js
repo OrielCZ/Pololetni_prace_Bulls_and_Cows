@@ -1,29 +1,6 @@
     //Server
 const API_URL = 'http://localhost:3000/api';
 
-function submitScore(player_name, attempts) {
-    fetch(`${API_URL}/submit-score`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ player_name, attempts })
-    })
-    .then(response => response.json())
-    .then(data => console.log('Skóre odesláno:', data))
-    .catch(error => console.error('Chyba při odesílání skóre:', error));
-}
-
-function loadLeaderboard() {
-    fetch(`${API_URL}/leaderboard`)
-    .then(response => response.json())
-    .then(scores => {
-        const leaderboard = document.getElementById('leaderboard');
-        leaderboard.innerHTML = scores.map((s, i) => `<li>${i + 1}. ${s.player_name} - ${s.attempts} pokusů</li>`).join('');
-    })
-    .catch(error => console.error('Chyba při načítání žebříčku:', error));
-}
-
-window.onload = loadLeaderboard;
-
 // Nastavení událostí
 function submitScore(player_name, attempts) {
 
@@ -53,15 +30,17 @@ window.onload = loadLeaderboard;
 
     //HRA
 // Generování tajného čísla bez opakujících se číslic
-function generateSecretNumber() {
+function generateSecretNumber(length = 4) {
     let digits = [];
-    while (digits.length < 4) {
+    const available = [1,2,3,4,5,6,7,8,9,0];
+    while (digits.length < length) {
         let num = Math.floor(Math.random() * 10);
-        if (!digits.includes(num) && num !== 0) {
+        if (!digits.includes(num)) {
+            if (digits.length === 0 && num === 0) continue; // nesmí začínat 0
             digits.push(num);
         }
     }
-    console.log(digits.join(''))
+    console.log("Tajné číslo:", digits.join(''));
     return digits.join('');
 }
 
@@ -83,15 +62,17 @@ function checkGuess(secret, guess) {
 
 // Funkce pro validaci vstupu
 function isValidGuess(guess) {
-    if (guess.length !== 4 || isNaN(guess) || guess[0] === '0') {
+    const numberLength = parseInt(localStorage.getItem("Length")) || 4;
+    if (guess.length !== numberLength || isNaN(guess) || guess[0] === '0') {
         return false;
     }
     let digits = new Set(guess);
-    return digits.size === 4; // Kontrola duplicity číslic
+    return digits.size === numberLength;
 }
 
 // Inicializace hry
-let secretNumber = generateSecretNumber();
+let numberLength = parseInt(localStorage.getItem("Length")) || 4;
+let secretNumber = generateSecretNumber(numberLength);
 let attempts = 0;
 let history = [];
 let player_name ='';
@@ -99,7 +80,8 @@ let player_name ='';
 // Připojení event listeneru na tlačítko odeslání tipu
 document.getElementById('submit-guess').addEventListener('click', function () {
     const inputs = document.querySelectorAll('.digit-input');
-    let guess = Array.from(inputs).map(input => input.value).join('');
+    const guess = Array.from(document.querySelectorAll('.digit-input')).map(i => i.value).join('');
+
 
     if (!isValidGuess(guess)) {
         alert("Neplatný vstup! Zadejte čtyřmístné číslo bez duplicit.");
@@ -109,15 +91,15 @@ document.getElementById('submit-guess').addEventListener('click', function () {
     // Zobrazení zpětné vazby
     attempts++;
     const { bulls, cows } = checkGuess(secretNumber, guess);
-    history.push(`Tip: ${guess} - 🟢${bulls} 🟡${cows}`);
-    document.getElementById('feedback').innerText = `Bulls: ${bulls}, Cows: ${cows}`;
+    document.getElementById('feedback').innerHTML =
+    `<span style="color:limegreen">🟢 ${bulls}</span>, <span style="color:gold">🟡 ${cows}</span>`;
 
     // Historie pokusů
     const historyList = document.getElementById('history');
     historyList.innerHTML = history.map(entry => `<li>${entry}</li>`).join('');
 
     // Kontrola výhry
-    if (bulls === 4) {
+    if (bulls === numberLength) {
         player_name = localStorage.getItem("Name")
         if (player_name) submitScore(player_name, attempts);
         alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
@@ -126,14 +108,28 @@ document.getElementById('submit-guess').addEventListener('click', function () {
 
 // Nová hra
 document.getElementById('new-game').addEventListener('click', function () {
-    secretNumber = generateSecretNumber();
+    numberLength = parseInt(localStorage.getItem("Length")) || 4;
+    secretNumber = generateSecretNumber(numberLength);
     attempts = 0;
     history = [];
 
-    document.querySelectorAll('.digit-input').forEach(input => input.value = '');
+    const numberInputs = document.getElementById("number-inputs");
+    numberInputs.innerHTML = '';
+    for (let i = 0; i < numberLength; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.maxLength = 1;
+        input.classList.add("digit-input");
+        input.id = `digit${i + 1}`;
+        numberInputs.appendChild(input);
+    }
+    setupInputNavigation(); // <- přidej tento řádek
+    
+
     document.getElementById('feedback').innerText = '';
     document.getElementById('history').innerHTML = '';
 });
+
 
 // Automatické přeskakování mezi políčky + podpora Backspace
 document.addEventListener("DOMContentLoaded", function () {
@@ -157,3 +153,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+function setupInputNavigation() {
+    const inputs = document.querySelectorAll(".digit-input");
+
+    inputs.forEach((input, index) => {
+        input.addEventListener("input", (e) => {
+            if (e.target.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus(); // Přejde na další vstup
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && e.target.value === "" && index > 0) {
+                inputs[index - 1].focus(); // Skočí zpět
+            }
+        });
+    });
+}
