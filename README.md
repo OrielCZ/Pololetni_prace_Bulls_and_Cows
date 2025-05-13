@@ -83,10 +83,10 @@ Součástí hry je také **online leaderboard**, kde se hráči mohou porovnáva
 docker-compose up -d
 
 # Instalace závislostí
-npm install
+bun install
 
 # Spuštění serveru
-node server.js
+bun run .
 ```
 
 ### **2. Frontend**

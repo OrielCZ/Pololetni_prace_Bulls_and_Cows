@@ -8,6 +8,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "./src/server.js",
+  "module": "./backend/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
