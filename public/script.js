@@ -76,7 +76,7 @@ let secretNumber = generateSecretNumber(numberLength);
 let attempts = 0;
 let history = [];
 let player_name ='';
-
+ 
 // Připojení event listeneru na tlačítko odeslání tipu
 document.getElementById('submit-guess').addEventListener('click', function () {
     const inputs = document.querySelectorAll('.digit-input');
@@ -149,6 +149,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (index > 0) {
                     inputs[index - 1].focus(); // Skok zpět, když se maže
                 }
+            }
+            else if (e.key === "ArrowRight") {
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus(); // Přeskočí na další číslo
+                }
+                e.preventDefault(); // Zabrání defaultnímu chování
+            }
+            else if (e.key === "ArrowLeft") {
+                if (index > 0) {
+                    inputs[index - 1].focus(); // Skok zpět
+                }
+                e.preventDefault(); // Zabrání defaultnímu chování
             }
         });
     });

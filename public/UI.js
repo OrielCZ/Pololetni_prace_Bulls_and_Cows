@@ -1,4 +1,4 @@
-    //Windows
+//Windows
 // Funkce pro zobrazení okna nastavení hry
 function openGameSettings() {
     document.getElementById("gameSettings").classList.remove("hidden");
