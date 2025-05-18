@@ -9,8 +9,6 @@ Bulls & Cows je webová hra, ve které hráč hádá náhodné čtyřmístné č
 - **Bulls (🟢)** – správná číslice na správném místě.
 - **Cows (🟡)** – správná číslice, ale na špatném místě.
 
-Součástí hry je také **online leaderboard**, kde se hráči mohou porovnávat na základě počtu pokusů.
-
 ---
 
 ## 2. Struktura projektu
@@ -21,7 +19,7 @@ Součástí hry je také **online leaderboard**, kde se hráči mohou porovnáva
 - `script.js` – herní logika na straně klienta.
 
 ### **Backend (Node.js, Express, PostgreSQL)**
-- `server.js` – serverová logika.
+- `index.ts` – serverová logika.
 
 ---
 
@@ -68,34 +66,31 @@ Součástí hry je také **online leaderboard**, kde se hráči mohou porovnáva
 | **Počítání pokusů** | ✅ Hotovo |
 | **Historie pokusů** | ✅ Hotovo |
 | **Online leaderboard** | ✅ Hotovo |
-| **LocalStorage pro nejlepší skóre** | 🔲 Zatím neimplementováno |
-| **Možnost změny délky čísla** | 🔲 Zatím neimplementováno |
-| **Dark/Light Mode** | 🔲 Zatím neimplementováno |
-| **Animace a UX prvky** | 🔲 Částečně hotovo |
-| **Režim proti AI** | 🔲 Zatím neimplementováno |
+| **LocalStorage pro nejlepší skóre** | ✅ Hotovo |
+| **Možnost změny délky čísla** | ✅ Hotovo |
+| **Dark/Light Mode** | ✅ Hotovo |
+
 
 ---
 
 ## 6. Jak spustit projekt
 ### **1. Backend**
-```sh
-# Spuštění PostgreSQL v Dockeru
-docker-compose up -d
-
-# Instalace závislostí
+To install dependencies:
+```bash
 bun install
-
-# Spuštění serveru
-bun run .
 ```
+
+To run:
+
+```bash
+bun run index.ts
+```
+
+This project was created using `bun init` in bun v1.2.4. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+
+---
 
 ### **2. Frontend**
 Stačí otevřít `index.html` v prohlížeči.
 
 ---
-
-## 7. Možná vylepšení
-- **Uložit nejlepší skóre do LocalStorage.**
-- **Přidat možnost hádání 3, 4 nebo 5místného čísla.**
-- **Přidat režim, kde AI hádá hráčovo číslo.**
-- **Vylepšit vizuální efekty (animace, barevné zvýraznění).**

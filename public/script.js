@@ -1,4 +1,4 @@
-    //Server
+//Server
 const API_URL = 'http://localhost:3000/api';
 
 // Nastavení událostí
@@ -28,7 +28,7 @@ function loadLeaderboard() {
 // Načíst žebříček při načtení stránky
 window.onload = loadLeaderboard;
 
-    //HRA
+//HRA
 // Generování tajného čísla bez opakujících se číslic
 function generateSecretNumber(length = 4) {
     let digits = [];
@@ -76,35 +76,41 @@ let secretNumber = generateSecretNumber(numberLength);
 let attempts = 0;
 let history = [];
 let player_name ='';
- 
-// Připojení event listeneru na tlačítko odeslání tipu
-document.getElementById('submit-guess').addEventListener('click', function () {
-    const inputs = document.querySelectorAll('.digit-input');
-    const guess = Array.from(document.querySelectorAll('.digit-input')).map(i => i.value).join('');
+let gameOver = false;
 
+
+// Funkce pro kontrolu tipu
+function checkAndSubmitGuess() {
+    if (gameOver) return;
+
+    const guess = Array.from(document.querySelectorAll('.digit-input')).map(i => i.value).join('');
 
     if (!isValidGuess(guess)) {
         alert("Neplatný vstup! Zadejte čtyřmístné číslo bez duplicit.");
         return;
     }
 
-    // Zobrazení zpětné vazby
     attempts++;
     const { bulls, cows } = checkGuess(secretNumber, guess);
-    document.getElementById('feedback').innerHTML =
-    `<span style="color:limegreen">🟢 ${bulls}</span>, <span style="color:gold">🟡 ${cows}</span>`;
+    
+    const historyEntry = `Pokus #${attempts}: ${guess} - <span style="color:limegreen">🟢 ${bulls}</span>, <span style="color:gold">🟡 ${cows}</span>`;
+    history.unshift(historyEntry);
+    
+    document.getElementById('feedback').innerHTML = `<span style="color:limegreen">🟢 ${bulls}</span>, <span style="color:gold">🟡 ${cows}</span>`;
+    document.getElementById('history').innerHTML = history.map(entry => `<li>${entry}</li>`).join('');
 
-    // Historie pokusů
-    const historyList = document.getElementById('history');
-    historyList.innerHTML = history.map(entry => `<li>${entry}</li>`).join('');
-
-    // Kontrola výhry
     if (bulls === numberLength) {
-        player_name = localStorage.getItem("Name")
+        gameOver = true;
+        document.getElementById('submit-guess').disabled = true;
+        player_name = localStorage.getItem("Name");
         if (player_name) submitScore(player_name, attempts);
         alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
     }
-});
+}
+
+
+// Připojení event listeneru na tlačítko odeslání tipu
+document.getElementById('submit-guess').addEventListener('click', checkAndSubmitGuess);
 
 // Nová hra
 document.getElementById('new-game').addEventListener('click', function () {
@@ -112,6 +118,8 @@ document.getElementById('new-game').addEventListener('click', function () {
     secretNumber = generateSecretNumber(numberLength);
     attempts = 0;
     history = [];
+    gameOver = false;
+    document.getElementById('submit-guess').disabled = false;
 
     const numberInputs = document.getElementById("number-inputs");
     numberInputs.innerHTML = '';
@@ -123,8 +131,7 @@ document.getElementById('new-game').addEventListener('click', function () {
         input.id = `digit${i + 1}`;
         numberInputs.appendChild(input);
     }
-    setupInputNavigation(); // <- přidej tento řádek
-    
+    setupInputNavigation();
 
     document.getElementById('feedback').innerText = '';
     document.getElementById('history').innerHTML = '';
@@ -132,7 +139,7 @@ document.getElementById('new-game').addEventListener('click', function () {
 
 
 // Automatické přeskakování mezi políčky + podpora Backspace
-document.addEventListener("DOMContentLoaded", function () {
+function setupInputNavigation() {
     const inputs = document.querySelectorAll(".digit-input");
 
     inputs.forEach((input, index) => {
@@ -145,12 +152,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         input.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace" && e.target.value === "") {
-                if (index > 0) {
-                    inputs[index - 1].focus(); // Skok zpět, když se maže
-                }
-            }
-            else if (e.key === "ArrowRight") {
+            // Podpora pro pohyb pomocí šipek
+            if (e.key === "ArrowRight") {
                 if (index < inputs.length - 1) {
                     inputs[index + 1].focus(); // Přeskočí na další číslo
                 }
@@ -162,24 +165,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 e.preventDefault(); // Zabrání defaultnímu chování
             }
-        });
-    });
-});
-
-function setupInputNavigation() {
-    const inputs = document.querySelectorAll(".digit-input");
-
-    inputs.forEach((input, index) => {
-        input.addEventListener("input", (e) => {
-            if (e.target.value.length === 1 && index < inputs.length - 1) {
-                inputs[index + 1].focus(); // Přejde na další vstup
+            // Podpora pro Backspace
+            else if (e.key === "Backspace" && e.target.value === "") {
+                if (index > 0) {
+                    inputs[index - 1].focus(); // Skok zpět, když se maže
+                }
             }
-        });
-
-        input.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace" && e.target.value === "" && index > 0) {
-                inputs[index - 1].focus(); // Skočí zpět
+            // Podpora pro Enter
+            else if (e.key === "Enter") {
+                checkAndSubmitGuess();
+                e.preventDefault();
             }
         });
     });
 }
+
+// Nastavení navigace po načtení dokumentu
+document.addEventListener("DOMContentLoaded", function () {
+    setupInputNavigation();
+});

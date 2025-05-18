@@ -41,27 +41,23 @@ function startGame() {
     localStorage.setItem("Name", playerName);
     localStorage.setItem("Length", numberLength);
 
-        // Vytvoření vstupů podle zvolené délky
-        const numberInputs = document.getElementById("number-inputs");
-        numberInputs.innerHTML = '';
-        for (let i = 0; i < numberLength; i++) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.maxLength = 1;
-            input.classList.add("digit-input");
-            input.id = `digit${i + 1}`;
-            numberInputs.appendChild(input);
-        }
-        setupInputNavigation(); // <- přidej tento řádek
-        
+    // Vytvoření vstupů podle zvolené délky
+    const numberInputs = document.getElementById("number-inputs");
+    numberInputs.innerHTML = '';
+    for (let i = 0; i < numberLength; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.maxLength = 1;
+        input.classList.add("digit-input");
+        input.id = `digit${i + 1}`;
+        numberInputs.appendChild(input);
+    }
     
     // Skryjeme menu a zobrazíme hru
     document.getElementById("menu").classList.add("hidden");
     document.getElementById("gameSettings").classList.add("hidden");
     document.getElementById("gameWindow").classList.remove("hidden");
     setupInputNavigation();
-
-    
 }
 
 // Přetahování oken jen za title-bar
