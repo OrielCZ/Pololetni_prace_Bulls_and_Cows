@@ -1,101 +1,95 @@
-# Pololetni_prace_Bulls_and_Cows
- 
- [Bulls & Cows_Cíle](https://www.remnote.com/a/Seznam-projektu/67a09c942d1d3b8343d49e4b)
+# Bulls & Cows
 
-# Dokumentace k projektu Bulls & Cows
+Webová implementace tradiční logické hry Bulls & Cows (v ČR známé také jako "Býci a krávy").
 
-## 1. Přehled projektu
-Bulls & Cows je webová hra, ve které hráč hádá náhodné čtyřmístné číslo, které si počítač tajně vygeneruje. Po každém pokusu dostane zpětnou vazbu v podobě:
-- **Bulls (🟢)** – správná číslice na správném místě.
-- **Cows (🟡)** – správná číslice, ale na špatném místě.
+## Popis projektu
 
-Součástí hry je také **online leaderboard**, kde se hráči mohou porovnávat na základě počtu pokusů.
+Bulls & Cows je jednoduchá logická hra, ve které hráč hádá tajné číslo. Po každém pokusu dostane zpětnou vazbu:
+- 🟢 Bulls (býci) - správná číslice na správném místě
+- 🟡 Cows (krávy) - správná číslice na špatném místě
 
----
+Cílem je uhodnout celé číslo s co nejmenším počtem pokusů.
 
-## 2. Struktura projektu
+## Technologie
 
-### **Frontend (JavaScript, HTML, CSS)**
-- `index.html` – obsahuje UI hry.
-- `style.css` – definuje vizuální styl hry.
-- `script.js` – herní logika na straně klienta.
+### Frontend
+- HTML5, CSS3, JavaScript
+- Responsivní design
+- Light/Dark mode
 
-### **Backend (Node.js, Express, PostgreSQL)**
-- `server.js` – serverová logika.
+### Backend
+- [Bun](https://bun.sh/) - JavaScript runtime
+- [Elysia](https://elysiajs.com/) - Lightweight web framework
+- SQLite - Embedded databáze pro ukládání skóre
 
----
+## Funkce
 
-## 3. Herní logika
-### **Generování tajného čísla**
-- Po spuštění hry backend vygeneruje **čtyřmístné číslo bez duplicitních číslic**.
-- Číslo je uloženo do session na straně klienta.
+- Možnost nastavení délky hádaného čísla (3-5 číslic)
+- Uživatelsky přívětivé rozhraní s historií pokusů
+- Žebříček nejlepších hráčů
+- Persistence dat mezi herními sezeními
+- Přepínání mezi světlým a tmavým režimem
+- Ověřování platnosti vstupů (unikátní číslice)
 
-### **Zadávání hádaného čísla**
-- Hráč zadává číslo do inputu a potvrzuje ho tlačítkem.
-- Backend zkontroluje vstup a vrátí počet Bulls a Cows.
-- Výsledky se zobrazí v tabulce historie pokusů.
+## 📋 Prerekvizity
 
-### **Validace vstupu**
-- Hráč může zadat pouze **čtyřmístné číslo**.
-- **Duplicitní číslice nejsou povoleny**.
-- Číslo **nesmí začínat nulou**.
+- [Bun](https://bun.sh/) (verze 1.0.0 nebo novější)
 
-### **Počítání pokusů a vítězství**
-- Po každém pokusu se **zvýší počet tahů**.
-- Pokud hráč uhodne celé číslo, zobrazí se vítězná zpráva a možnost nové hry.
+## 🔧 Instalace
 
-### **Historie pokusů**
-- Všechny předchozí pokusy se zobrazují ve formě tabulky.
+1. Naklonujte repozitář:
+   ```bash
+   git clone https://github.com/vas-username/bulls-and-cows.git
+   cd bulls-and-cows
+   ```
 
----
+2. Nainstalujte závislosti:
+   ```bash
+   bun install
+   ```
 
-## 4. Online leaderboard
-### **Ukládání skóre**
-- Backend přijímá jméno hráče (`player_name`) a počet pokusů.
-- Skóre se ukládá do PostgreSQL.
+3. Spusťte aplikaci:
+   ```bash
+   bun run index.ts
+   ```
 
-### **Zobrazení leaderboardu**
-- Frontend načítá leaderboard přes API a zobrazuje top hráče.
+4. Otevřete aplikaci v prohlížeči:
+   ```
+   http://localhost:3000
+   ```
 
----
+## Struktura projektu
 
-## 5. Technické požadavky vs. aktuální stav
-
-| Požadavek | Stav |
-|-----------|------|
-| **Generování tajného čísla** | ✅ Hotovo |
-| **Validace vstupu** | ✅ Hotovo |
-| **Počítání pokusů** | ✅ Hotovo |
-| **Historie pokusů** | ✅ Hotovo |
-| **Online leaderboard** | ✅ Hotovo |
-| **LocalStorage pro nejlepší skóre** | 🔲 Zatím neimplementováno |
-| **Možnost změny délky čísla** | 🔲 Zatím neimplementováno |
-| **Dark/Light Mode** | 🔲 Zatím neimplementováno |
-| **Animace a UX prvky** | 🔲 Částečně hotovo |
-| **Režim proti AI** | 🔲 Zatím neimplementováno |
-
----
-
-## 6. Jak spustit projekt
-### **1. Backend**
-```sh
-# Spuštění PostgreSQL v Dockeru
-docker-compose up -d
-
-# Instalace závislostí
-npm install
-
-# Spuštění serveru
-node server.js
+```
+bulls-and-cows/
+├── index.ts                # Hlavní soubor serveru
+├── scores.db               # SQLite databáze skóre (automaticky vytvořena)
+├── public/                 # Veřejně dostupné soubory
+│   ├── index.html          # Hlavní HTML soubor
+│   ├── style.css           # Styly
+│   ├── script.js           # Herní logika
+│   ├── UI.js               # UI komponenty a interakce
+│   └── images/             # Obrázky a ikony
+└── README.md               # Dokumentace projektu
 ```
 
-### **2. Frontend**
-Stačí otevřít `index.html` v prohlížeči.
+## API Endpointy
 
----
+| Cesta | Metoda | Popis | Parametry |
+|-------|--------|-------|-----------|
+| `/api/new-game` | GET | Vytvoří novou hru | - |
+| `/api/game/:id/submit` | POST | Zpracuje pokus o uhádnutí | `code`: hádané číslo |
+| `/api/submit-score` | POST | Uloží skóre hráče | `player_name`: jméno hráče, `attempts`: počet pokusů |
+| `/api/leaderboard` | GET | Vrátí žebříček nejlepších hráčů | - |
 
-## 7. Možná vylepšení
-- **Uložit nejlepší skóre do LocalStorage.**
-- **Přidat možnost hádání 3, 4 nebo 5místného čísla.**
-- **Přidat režim, kde AI hádá hráčovo číslo.**
-- **Vylepšit vizuální efekty (animace, barevné zvýraznění).**
+## Autoři
+
+- **Ondřej Zach** - Frontend (HTML, CSS, JavaScript)
+- **Jiří Theodor Smítka** - Backend (API, databáze)
+
+## Budoucí vylepšení
+
+- [ ] Přidání možnosti více obtížností hry
+- [ ] Implementace online multiplayer módu
+- [ ] Statistiky hráče (průměrný počet pokusů, nejlepší výsledek, atd.)
+- [ ] Podpora pro více jazyků
