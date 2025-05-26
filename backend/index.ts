@@ -9,10 +9,11 @@
  * @license MIT
  */
 
-import { file } from "bun";
 import Elysia, { t } from "elysia";
 import staticPlugin from "@elysiajs/static";
 import { Database } from "bun:sqlite";
+
+
 
 /**
  * Konfigurační konstanty aplikace

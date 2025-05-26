@@ -26,7 +26,9 @@ function loadLeaderboard() {
 }
 
 // Načíst žebříček při načtení stránky
-window.onload = loadLeaderboard;
+window.onload = () => {
+    loadLeaderboard();
+};
 
 //HRA
 // Generování tajného čísla bez opakujících se číslic
@@ -105,6 +107,7 @@ function checkAndSubmitGuess() {
         player_name = localStorage.getItem("Name");
         if (player_name) submitScore(player_name, attempts);
         alert(`Uhodl jsi číslo ${secretNumber} za ${attempts} pokusů.`);
+        loadLeaderboard();
     }
 }
 
